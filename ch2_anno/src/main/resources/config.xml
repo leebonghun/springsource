@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- <context:annotation-config/> -->
+	
+	<!-- base-package에 지정된 패키지 아래에 있는 모든 클래스들을 스캔하여 @Component가 붙어 있는지 
+	     확인하고 활성화 시키기  -->
+	<context:component-scan base-package="com.company.tvapp"></context:component-scan>
+</beans>

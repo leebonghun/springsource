@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 생성할 객체(bean) 알려주기 -->
+	<bean id="ko" class="com.mycompany.mych1.MessageBeanKo" />
+	<bean id="en" class="com.mycompany.mych1.MessageBeanEn" />
+	
+	<!-- DI (Constructor Injection)  -->
+	 <bean id="lg" class="com.company.tvapp.LgTV">
+		<constructor-arg ref="apple"></constructor-arg>
+	</bean> 
+	
+	
+	<!-- DI (Setter Injection)         -->
+	<!-- <bean id="lg" class="com.company.tvapp.LgTV">
+		<property name="speaker" ref="apple"></property>
+	</bean> -->
+	<!-- 객체 생성 : 기본 생성자를 이용한 객체 생성  -->
+	<bean id="samsung" class="com.company.tvapp.SamsungTV"/>
+	<bean id="apple" class="com.company.tvapp.AppleSpeaker"/>
+	<bean id="sony" class="com.company.tvapp.SonySpeaker"/>
+	
+	
+	<!-- studentapp -->
+	
+	<bean id="info" class="com.company.studentapp.StudentInfo">
+		<constructor-arg ref="student"></constructor-arg>
+	</bean>
+	
+	<bean id="student" class="com.company.studentapp.Student">
+		<constructor-arg value="홍길동" />
+		<constructor-arg value="25" />
+		<constructor-arg value="4" />
+		<constructor-arg value="20" />
+	</bean>
+</beans>
