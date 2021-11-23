@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.mapper.PersonMapper">
+	<insert id="insertPerson">
+		insert into Person(id,name) values(#{id},#{name})
+	</insert>
+	<update id="updatePerson">
+		update Person set name=#{name} where id=#{id}
+	</update>
+	<delete id="deletePerson">
+		delete from Person where id=#{id}
+	</delete>
+	<select  id="selectPerson" resultType="java.lang.String">
+		select name from Person where id=#{id}
+	</select>
+</mapper>
