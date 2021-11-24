@@ -10,7 +10,13 @@
 	<delete id="deletePerson">
 		delete from Person where id=#{id}
 	</delete>
-	<select  id="selectPerson" resultType="java.lang.String">
+	<select id="selectPerson" resultType="java.lang.String">
 		select name from Person where id=#{id}
 	</select>
+	
+	<select id="all" resultType="com.company.domain.PersonDTO">
+		select * from Person
+	</select>
 </mapper>
+
+

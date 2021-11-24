@@ -1,10 +1,14 @@
 package com.company.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import com.company.domain.PersonDTO;
 
 public interface PersonMapper {
 	//입력
@@ -30,6 +34,8 @@ public interface PersonMapper {
 	public int updatePerson(@Param("id") String id,@Param("name") String name);
 	
 	public int deletePerson(String id);
+	
+	public List<PersonDTO> all();
 
 	
 	

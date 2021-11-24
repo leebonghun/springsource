@@ -1,8 +1,11 @@
 package com.company.app;
 
+import java.util.List;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.company.domain.PersonDTO;
 import com.company.service.PersonService;
 
 public class PersonClient {
@@ -20,6 +23,13 @@ public class PersonClient {
 		//System.out.println(service.updatePerson("kang123", "이봉훈")?"수정성공":"수정실패");
 		
 		//System.out.println(service.deletePerson("kang123")?"삭제성공":"삭제실패");
+		
+		List<PersonDTO> list = service.all();
+		for(PersonDTO dto:list) {
+			System.out.println(dto.getId());
+			System.out.println(dto.getName());
+		}
+	
 	}
 
 }
