@@ -18,6 +18,10 @@
 				name="password" id="password" />
 		</div>
 		<div>
+			<label for="name">name</label> <input type="text"
+				name="name" id="name" />
+		</div>
+		<div>
 			<input type="submit" value="전송" />
 		</div>
 	</form>
