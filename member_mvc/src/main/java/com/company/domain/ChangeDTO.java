@@ -11,13 +11,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class MemberDTO {
+public class ChangeDTO {
 	private String userid;
 	private String password;
 	private String new_password;
 	private String confirm_password;
-	private String name;
-	private String gender;
-	private String email;
-	
 }

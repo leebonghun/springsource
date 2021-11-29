@@ -9,13 +9,13 @@
 	 	<div class="card-body">	
 			<div class="form-group row justify-content-center">		
 				<div class="col-sm-10">	
-					<input type="text" name="userid" id="userid" class="form-control" value="" readonly/>
+					<input type="text" name="userid" id="userid" class="form-control" value="${loginDto.userid}" readonly/>
 			 		<small id="userid" class="text-info"></small>		
 				</div>
 			</div>	
 			<div class="form-group row justify-content-center">		
 				<div class="col-sm-10">	
-					<input type="password" name="current_password" id = "current_password" class="form-control" placeholder="비밀번호" autofocus="autofocus"/>
+					<input type="password" name="password" id = "password" class="form-control" placeholder="비밀번호" autofocus="autofocus"/>
 					<small id="current_password" class="text-info"></small>
 				</div>	
 			</div>				

@@ -1,105 +1,89 @@
 package com.company.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.company.domain.ChangeDTO;
+import com.company.domain.LoginDTO;
 import com.company.domain.MemberDTO;
 import com.company.service.MemberService;
 
 import lombok.extern.log4j.Log4j2;
+import oracle.jdbc.proxy.annotation.Post;
 
-@Controller
 @Log4j2
-@RequestMapping("/register/*")
+@Controller
+@RequestMapping("/member/*")
 public class MemberController {
-	
+
 	@Autowired
 	private MemberService service;
-	
-	@GetMapping("/step1")
-	public void registGet() {
-		log.info("step1......");
-		
-		
-	}
-	
-	@PostMapping("/step2")
-	public String step2(boolean agree,RedirectAttributes rttr) {
-		log.info("step2..."+agree);
-		
-		if(!agree) {
-			rttr.addFlashAttribute("check", "false");
-			return "redirect:/register/step1";
-		}
-		return "/register/step2";
-	}
-	
-	//중복 아이디 검사
-	@ResponseBody //return 하는 값이 일단 데이터(jsp페이지 안찾음)
-	@PostMapping("checkId")
-	public String idCheck(String userid) {
-		log.info("중복 아이디 검사중..."+userid);
-		
-		if(service.selectId(userid)!=null) {
-			return "false";
-		}
-		return "true";
-	}
-	@PostMapping("/step3")
-	public String step3(Model model,MemberDTO dto) {
-		log.info("/go to signin...");
-		
-		//boolean result=service.insertMember(dto);
-		
-		try {
-			if(!service.insertMember(dto)) {
-				return "/register/step2";
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			return "/register/step2";
-		}
-		
-		return "redirect:/register/signin";
-			
-//		model.getAttribute(dto.getUserid());
-//		model.getAttribute(dto.getPassword());
-//		model.getAttribute(dto.getConfirm_password());
-//		model.getAttribute(dto.getName());
-//		model.getAttribute(dto.getGender());
-//		model.getAttribute(dto.getEmail());
-		
-		
-	
-		
-		
-	}
+
+	// 로그인
 	@GetMapping("/signin")
-	public String signin(String userid,String password) {
-		log.info("login중입니다...");
+	public void signin() {
+		log.info("로그인 요청");
+
+	}
+
+	// loginPost()
+	@PostMapping("/signin")
+	public String loginPost(LoginDTO loginDto, HttpSession session) {
+		log.info(loginDto);
 		
-		if(service.loginMember(userid, password) !=null) {
-			return "/register/signin";
+		loginDto = service.login(loginDto);
+		session.setAttribute("loginDto", loginDto);
+
+		return "redirect:/";
+
+	}
+
+	@GetMapping("logout")
+	public String logout(HttpSession session) {
+		log.info("로그아웃중..");
+		session.invalidate();
+		return "redirect:/";
+	}
+
+	@GetMapping("/changePwd")
+	public void changePwd() {
+		log.info("비밀번호 변경중..");
+	}
+
+	@PostMapping("/changePwd")
+	public String changePwdPost(ChangeDTO changeDto, HttpSession session) {
+		log.info(changeDto);
+		LoginDTO loginDto = (LoginDTO) session.getAttribute("loginDto");
+		changeDto.setUserid(loginDto.getUserid());// loginDto에 있는 userid의 세션값을 changeDto에 있는 userid값을 넘기는 방법
+
+		session.setAttribute("changeDto", changeDto);
+
+		if (service.updateMember(changeDto)) {
+			session.invalidate(); // 비밀번호 변경이 되면 기존의 세션 해제
+			return "redirect:/member/signin";
 		}
-		return "index";
+		return "redirect:/member/changePwd";
+
 	}
-	//들어오면 안되는 경로를 요청하게 되면 원하는 페이지로 돌릴수있음
-	@GetMapping(value= {"/step2","/step3"})
-	public String handleGet() {
-		log.info("/step2, /step3 직접 요청..");
+
+	@GetMapping("/leave")
+	public void leave() {
+		log.info("로그아웃 처리중..");
+	}
+
+	@PostMapping("/leave")
+	public String leaveOut(LoginDTO loginDto, HttpSession session) {
 		
-		//step2,step3를 주소창에 입력하면 자동적으로 step1으로 이동
-		return "redirect:/register/step1";
+		if (service.deleteMember(loginDto)) {
+			session.invalidate();
+			return "redirect:/";
+		}
+		return "redirect:/member/leave";
 	}
-	
-	
-	
 }

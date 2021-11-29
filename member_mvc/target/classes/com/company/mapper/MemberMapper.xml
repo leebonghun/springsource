@@ -2,15 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.company.mapper.MemberMapper">
 
-<insert id="insertMember">
+	<insert id="insertMember">
 	insert into member(userid,password,name,gender,email) values(#{userid},#{password},#{name},#{gender},#{email})
 </insert>
-<select  id="loginMember" resultType="com.company.domain.MemberDTO">
-	select * from member where userid =#{userid} and password=#{password}
-	</select>
+	<select id="loginMember" resultType="com.company.domain.LoginDTO">
+	select userid,name from member where userid =#{userid} and password=#{password}
+</select>
 	<!-- 중복 아이디 검사-->
-	<select  id="selectId" resultType="com.company.domain.MemberDTO">
-		select * from member where userid=#{userid}
+	<select id="selectId" resultType="com.company.domain.MemberDTO">
+	select * from member where userid=#{userid}
 	
-	</select>
+</select>
+
+<update id="updateMember">
+
+	update member set password=#{confirm_password} where userid=#{userid} and password=#{password}
+</update>
+
+<delete id="deleteMember">
+	delete from member where userid=#{userid} and password=#{password}
+</delete>
 </mapper>

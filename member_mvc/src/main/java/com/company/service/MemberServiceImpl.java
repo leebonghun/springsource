@@ -3,6 +3,8 @@ package com.company.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.company.domain.ChangeDTO;
+import com.company.domain.LoginDTO;
 import com.company.domain.MemberDTO;
 import com.company.mapper.MemberMapper;
 
@@ -28,9 +30,29 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public MemberDTO loginMember(String userid, String password) {
+	public LoginDTO login(LoginDTO loginDto) {
 		// TODO Auto-generated method stub
-		return mapper.loginMember(userid, password);
+		return mapper.loginMember(loginDto);
 	}
+
+
+
+	@Override
+	public boolean updateMember(ChangeDTO changeDto) {
+		// TODO Auto-generated method stub
+		return mapper.updateMember(changeDto)>0?true:false;
+	}
+
+
+
+	@Override
+	public boolean deleteMember(LoginDTO loginDto) {
+		// TODO Auto-generated method stub
+		return mapper.deleteMember(loginDto)>0?true:false;
+	}
+
+
+
+	
 	 
 }
