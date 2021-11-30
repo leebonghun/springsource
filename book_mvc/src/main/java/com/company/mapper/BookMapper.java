@@ -10,4 +10,8 @@ public interface BookMapper {
 	public int insertBook(BookDTO bookDto);
 	
 	public BookDTO read(String code);
+	
+	public int deleteBook(String code);
+	
+	public int updateBook(BookDTO bookDto);
 }

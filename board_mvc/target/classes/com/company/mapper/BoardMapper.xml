@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.mapper.BoardMapper">
+
+<insert id="insertBoard">
+<!-- 주로 pk값을 미리 sql 문을 통해 처리해 두고 특정한 이름으로 결과를 보관 -->
+<!-- keyProperty : BoardDTO에 정의해준 변수명-->
+<selectKey keyProperty="bno" order="BEFORE" resultType="int">
+	select seq_board.nextval from dual
+</selectKey>
+	insert into spring_board (bno,title,content,writer) values(#{bno},#{title},#{content},#{writer})
+	
+	
+</insert>
+
+<select  id="list" resultType="com.company.domain.BoardDTO">
+
+	select bno,title,writer,regdate,updatedate from spring_board where bno>0 order by bno desc, regdate desc
+</select>
+
+<select  id="read" resultType="com.company.domain.BoardDTO">
+	select bno,title,content,writer from spring_board where bno=#{bno}
+</select>
+<update id="modify">
+	update spring_board set title=#{title}, content=#{content},updatedate=sysdate where bno=#{bno}
+</update>
+
+<delete id="remove">
+	delete from spring_board where bno = #{bno}
+</delete>
+</mapper>

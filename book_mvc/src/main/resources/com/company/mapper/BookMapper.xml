@@ -14,4 +14,12 @@
 	select * from bookTBL where code=#{code}
 </select>
 
+
+<delete id="deleteBook">
+	delete from bookTBL where code=#{code}
+</delete>
+
+<update id="updateBook">
+	update bookTBL set price =#{price} where code=#{code}
+</update>
 </mapper>

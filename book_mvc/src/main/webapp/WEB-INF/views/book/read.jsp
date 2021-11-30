@@ -20,9 +20,18 @@
 		<input type="text" name="price" id="price" class="form-control" readonly="readonly" value="${bookDto.price}"/>
 	</div>
 	
-	<button type="submit" class="btn btn-primary">입력</button>
-	<button type="reset" class="btn btn-secondary">취소</button>
+	<button type="button" class="btn btn-primary">수정</button>
+	<button type="button" class="btn btn-danger">삭제</button>
+	<button type="button" class="btn btn-secondary">목록</button>
+
+
+
 
 
 </form>
+<form action="" id="actionForm">
+	<input type="hidden" name="code" value="${bookDto.code}"/>
+</form>
+
+<script src="/resources/js/read.js"></script>
 <%@include file="../includes/footer.jsp" %>

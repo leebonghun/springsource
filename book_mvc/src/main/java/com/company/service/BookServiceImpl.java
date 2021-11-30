@@ -35,4 +35,18 @@ public class BookServiceImpl implements BookService {
 		return mapper.read(code);
 	}
 
+
+	@Override
+	public boolean deleteBook(String code) {
+		// TODO Auto-generated method stub
+		return mapper.deleteBook(code)>0?true:false;
+	}
+
+
+	@Override
+	public boolean updateBook(BookDTO bookDto) {
+		// TODO Auto-generated method stub
+		return mapper.updateBook(bookDto)>0?true:false;
+	}
+
 }

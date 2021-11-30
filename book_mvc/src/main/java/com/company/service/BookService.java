@@ -10,4 +10,7 @@ public interface BookService {
 	public boolean insertBook(BookDTO bookDto);
 	
 	public BookDTO read(String code);
+	
+	public boolean deleteBook(String code);
+	public boolean updateBook(BookDTO bookDto);
 }

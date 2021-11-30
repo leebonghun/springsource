@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.company.domain.BookDTO;
 import com.company.service.BookService;
@@ -53,13 +54,33 @@ public class BookController {
 		model.addAttribute("list", list);
 		log.info("list 뽑아오는중..");
 	}
-	@GetMapping("/read")
+	@GetMapping({"/read","/modify"})
 	public void read(String code,Model model) {
 		
-		log.info("헤헤..");
+		log.info("read or modify 요청.."+code);
 		BookDTO	bookDto = service.read(code);
-			model.addAttribute("bookDto", bookDto);
+		model.addAttribute("bookDto", bookDto);
 	}
+	
+	//book/remove
+	@GetMapping("/remove")
+	public String remove(String code) {
+		log.info("삭제 요청중");
+	
+		if(service.deleteBook(code)) {
+			return "redirect:/book/list";
+		}
+		return "redirect:/book/list";
+	}
+	@PostMapping("/update")
+	public String update(BookDTO bookDto,RedirectAttributes rttr) {
+		
+		service.updateBook(bookDto);
+		rttr.addAttribute("code", bookDto.getCode());
+		return "redirect:/book/read";
+	}
+	
+	
 	
 
 }
