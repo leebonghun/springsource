@@ -16,6 +16,7 @@ $(function(){
 		
 		if(oper=='modify'){
 			formObj = $("form[role='form']");	
+			
 		}else if(oper =='remove'){
 			formObj.attr("action","/board/remove")
 					.attr("method","post");

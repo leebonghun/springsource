@@ -43,6 +43,8 @@
             </div>
 <!-- 페이지 나누기를 위한 form -->            
 <form action="" id="actionForm">
+	<input type="hidden" name="pageNum" value="${cri.pageNum}" />
+	<input type="hidden" name="amount" value="${cri.amount}" />
 	<input type="hidden" name="bno" value="${read.bno}" />
 </form>            
 <script src="/resources/js/read.js"></script>

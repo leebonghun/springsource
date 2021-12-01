@@ -43,7 +43,11 @@
                 </div>
             </div>
 			<%-- remove와 list를 위한 폼--%>
+			
+			
 <form action="" id="actionForm">
+	<input type="hidden" name="pageNum" value="${cri.pageNum}" />
+	<input type="hidden" name="amount" value="${cri.amount}" />
 	<input type="hidden" name="bno" value="${read.bno}" />
 </form>            
 <script src="/resources/js/modify.js"></script>		

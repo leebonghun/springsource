@@ -9,13 +9,33 @@
 	select seq_board.nextval from dual
 </selectKey>
 	insert into spring_board (bno,title,content,writer) values(#{bno},#{title},#{content},#{writer})
-	
-	
 </insert>
 
-<select  id="list" resultType="com.company.domain.BoardDTO">
+<!-- 페이지 나누기 전 -->
+<!--<select  id="list" resultType="com.company.domain.BoardDTO">
 
 	select bno,title,writer,regdate,updatedate from spring_board where bno>0 order by bno desc, regdate desc
+</select>-->
+
+<!-- 페이지 나누기후 -->
+<select  id="list" resultType="com.company.domain.BoardDTO">
+
+<![CDATA[ 
+select rn,bno,title,writer,regdate,updatedate
+	from(select /*+INDEX_DESC(spring_board pk_spring_board)*/ rownum rn,bno,title,writer,regdate,updatedate
+		from SPRING_BOARD
+		where rownum <= (#{pageNum}*#{amount}))
+	where rn> (#{pageNum}-1) * #{amount}
+	
+	
+	
+	
+]]>
+</select>
+
+<!-- 전체 게시물 수-->
+<select  id="totalCnt" resultType="int">
+	select count(*) from spring_board where bno>0
 </select>
 
 <select  id="read" resultType="com.company.domain.BoardDTO">
