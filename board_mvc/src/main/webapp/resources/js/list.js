@@ -51,6 +51,8 @@ $(function(){
 		let amount = $(this).val();
 	//amount 값 가져오기
 		actionForm.find("input[name='amount']").val(amount);
+		
+			actionForm.find("input[name='bno']").remove();
 			
 		actionForm.submit();
 	//가져온 값을 actionForm에 

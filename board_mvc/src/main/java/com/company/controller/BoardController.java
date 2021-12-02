@@ -50,9 +50,9 @@ public class BoardController {
 		List<BoardDTO> list = service.list(cri);
 		
 		//페이지 나누기를 위한 정보 얻기
-		int totalCnt=service.totalCnt();
+		int totalCnt=service.totalCnt(cri);
 		
-		model.addAttribute("pageDto", new PageDTO(cri, totalCnt));
+		model.addAttribute("pageDto", new PageDTO(cri, totalCnt)); //다음페이지까지 cri 값이 유지된다
 		model.addAttribute("list", list);
 		
 	}
@@ -74,6 +74,8 @@ public class BoardController {
 			service.modify(dto);
 			rttr.addAttribute("pageNum", cri.getPageNum());
 			rttr.addAttribute("amount", cri.getAmount());
+			rttr.addAttribute("type", cri.getType());
+			rttr.addAttribute("keyword", cri.getKeyword());
 			rttr.addFlashAttribute("result", "success");
 			return "redirect:/board/list";
 	}
@@ -90,6 +92,8 @@ public class BoardController {
 			//페이지 나누기 값
 			rttr.addAttribute("pageNum", cri.getPageNum());
 			rttr.addAttribute("amount", cri.getAmount());
+			rttr.addAttribute("type", cri.getType());
+			rttr.addAttribute("keyword", cri.getKeyword());
 			rttr.addFlashAttribute("result", "success");
 			return "redirect:/board/list";
 		

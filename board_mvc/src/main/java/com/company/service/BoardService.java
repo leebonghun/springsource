@@ -17,5 +17,5 @@ public interface BoardService {
 	
 	public boolean remove(String bno);
 	
-	public int totalCnt();
+	public int totalCnt(Criteria cri);
 }

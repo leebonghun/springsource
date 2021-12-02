@@ -46,9 +46,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int totalCnt() {
+	public int totalCnt(Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.totalCnt();
+		return mapper.totalCnt(cri);
 	}
 
 	
