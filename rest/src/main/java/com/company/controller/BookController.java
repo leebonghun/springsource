@@ -51,12 +51,8 @@ public class BookController {
 	}
 
 	@GetMapping("/list")
-	public void list(Model model) {
+	public void list() {
 
-		List<BookDTO> list = service.list();
-		log.info(list);
-
-		model.addAttribute("list", list);
 		log.info("list 뽑아오는중..");
 	}
 	@GetMapping({"/read","/modify"})

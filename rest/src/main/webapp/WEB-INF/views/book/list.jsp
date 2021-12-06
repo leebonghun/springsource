@@ -12,18 +12,23 @@
     </tr>
   </thead>
   <tbody>
-  <c:forEach var="item" items="${list}">
-    <tr>
-      <th scope="row">${item.code}</th>
-      <td><a href="${item.code}" class="move">${item.title}</a></td>
-      <td>${item.writer}</td>
-      <td>${item.price}</td>
-    </tr>
-    </c:forEach>
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
   </tbody>
 </table>
 <hr />
 <div id='result'>
+
+</div>
+<div>
+<button type="button" id="delete">삭제</button>
+<button type="button" id="update">수정</button>
 
 </div>
 <script src="/resources/js/list.js"></script>

@@ -48,7 +48,12 @@
 	<input type="hidden" name="type" value="${cri.type}" />
 	<input type="hidden" name="keyword" value="${cri.keyword}" />
 	<input type="hidden" name="bno" value="${read.bno}" />
-</form>            
+</form>  
+<script>
+	//현재 글번호 가져오기
+	let bno = ${read.bno};	
+</script>          
+<script src="/resources/js/reply.js"></script>
 <script src="/resources/js/read.js"></script>
 <%@include file="../includes/footer.jsp" %>
 

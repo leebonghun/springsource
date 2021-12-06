@@ -12,10 +12,12 @@ import com.company.domain.SampleDTO;
 
 import lombok.extern.log4j.Log4j2;
 
-@RestController
+@RestController //return 값이 데이터
 @Log4j2
 
 public class BasicController {
+	
+	
 	
 	@GetMapping("/hello")
 	public String hello() {
