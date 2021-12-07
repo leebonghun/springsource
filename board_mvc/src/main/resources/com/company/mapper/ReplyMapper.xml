@@ -21,9 +21,20 @@
 
 	<!-- bno가 일치하는 댓글 가져오기  -->
 	<select  id="list" resultType="com.company.domain.ReplyDTO">
+		<![CDATA[
 		select rno,bno,reply,replyer,replydate,updatedate 
-		from spring_reply where bno=#{bno} order by rno asc
+		from(select /*+INDEX(spring_reply idx_reply)*/rownum rn,rno,bno,reply,replyer,replydate,updatedate from spring_reply where bno =#{bno} and rno>0 and rownum<= #{cri.pageNum}* #{cri.amount})
+		where rn > (#{cri.pageNum}-1) * #{cri.amount}
+		]]>
 	</select>
 
-
-</mapper>
+	
+ 	<!--  BNO가 일치하는 댓글의 전체 댓글 수 -->
+ 	<select  id="getCountByBno" resultType="int">
+ 		select count(rno) from spring_reply where bno=#{bno}
+ 	</select>
+	
+	
+	
+	
+	</mapper>

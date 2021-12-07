@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.company.domain.Criteria;
 import com.company.domain.ReplyDTO;
+import com.company.domain.ReplyPageDTO;
 import com.company.service.ReplyService;
 
 import lombok.extern.log4j.Log4j2;
@@ -45,6 +47,7 @@ public class ReplyController {
 		return new ResponseEntity<ReplyDTO>(service.getRow(rno), HttpStatus.OK);
 
 	}
+	
 
 	@PutMapping("/{rno}")
 	public ResponseEntity<String> update(@PathVariable int rno, @RequestBody ReplyDTO updateDto) {
@@ -63,10 +66,23 @@ public class ReplyController {
 				: new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 	}
 
+//	@GetMapping("/pages/{bno}/{page}")
+//	public ResponseEntity<List<ReplyDTO>> list(@PathVariable int bno,@PathVariable int page) {
+//		log.info("댓글전체가져오기");
+//		
+//		Criteria cri = new Criteria(page,10);
+//		
+//		return new ResponseEntity<List<ReplyDTO>>(service.list(cri,bno), HttpStatus.OK);
+//
+//	}
+	//페이지 나누기 댓글 처리 
 	@GetMapping("/pages/{bno}/{page}")
-	public ResponseEntity<List<ReplyDTO>> list(@PathVariable int bno) {
-
-		return new ResponseEntity<List<ReplyDTO>>(service.list(bno), HttpStatus.OK);
-
+	public ResponseEntity<ReplyPageDTO> list(@PathVariable int bno,@PathVariable int page) {
+		log.info("댓글전체가져오기");
+		
+		Criteria cri = new Criteria(page,10);
+		
+		return new ResponseEntity<ReplyPageDTO>(service.list(cri,bno), HttpStatus.OK);
+		
 	}
 }
