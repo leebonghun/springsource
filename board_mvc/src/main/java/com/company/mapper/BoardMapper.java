@@ -2,6 +2,8 @@ package com.company.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.company.domain.BoardDTO;
 import com.company.domain.Criteria;
 
@@ -17,5 +19,7 @@ public interface BoardMapper {
 	public int remove(String bno);
 	
 	public int totalCnt(Criteria cri);
+	
+	public int updateReplyCnt(@Param("bno")int bno,@Param("amount")int amount);
 	
 }

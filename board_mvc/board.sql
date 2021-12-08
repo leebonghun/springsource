@@ -93,3 +93,11 @@ create index idx_reply on spring_reply(bno desc, rno asc);
 select rno,bno,reply,replyer,replydate,updatedate 
 from(select /*+INDEX(spring_reply idx_reply)*/rownum rn,rno,bno,reply,replyer,replydate,updatedate from spring_reply where bno =506 and rno>0 and rownum<=20)
 where rn >10;
+
+
+--spring board 테이블의 댓글 수를 저장할 컬럼 추가(프로젝트 할 때 꼭 추가해야함)
+alter table spring_board add(replyCnt number default 0);
+
+--이미 들어간 댓글 수 삽입
+update spring_board set replyCnt = (select count(rno) from SPRING_REPLY where spring_board.bno=spring_reply.bno);
+select * from spring_board where bno = 506;

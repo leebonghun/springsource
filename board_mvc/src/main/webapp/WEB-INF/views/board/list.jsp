@@ -33,7 +33,7 @@
 								<c:forEach var="list" items="${list}">
 								   <tr>
                                         <th>${list.bno}</th>
-                                        <th><a href="${list.bno}" class="move">${list.title}</a></th>
+                                        <th><a href="${list.bno}" class="move">${list.title}</a>     <strong>[${list.replyCnt}]</strong></th>
                                         <th>${list.writer}</th>
                                         <th><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${list.regdate}"/></th>
                                         <th><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${list.updatedate}"/></th>

@@ -21,8 +21,8 @@
 	<select  id="list" resultType="com.company.domain.BoardDTO">
 	
 	<![CDATA[ 
-	select rn,bno,title,writer,regdate,updatedate
-		from(select /*+INDEX_DESC(spring_board pk_spring_board)*/ rownum rn,bno,title,writer,regdate,updatedate
+	select rn,bno,title,writer,regdate,updatedate,replyCnt
+		from(select /*+INDEX_DESC(spring_board pk_spring_board)*/ rownum rn,bno,title,writer,regdate,updatedate,replyCnt
 			from SPRING_BOARD
 			where  	
 	]]>
@@ -54,6 +54,14 @@
 	<delete id="remove">
 		delete from spring_board where bno = #{bno}
 	</delete>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateReplyCnt">
+		update spring_board
+		set replyCnt = replyCnt + #{amount}
+		where bno = #{bno}
+	
+	</update>
 	
 	
 	

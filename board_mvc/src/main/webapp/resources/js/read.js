@@ -143,6 +143,13 @@ $(function(){
 				
 				
 				modal.data("rno",data.rno);
+				
+				//작성날짜 영역 보여주기
+				modal.find("[name='replyDate']").closest("div").show(); //제일 가까운 div를 보여줘
+				//모든 버튼 다시 보여주기
+				modal.find("button").show();
+				
+				//등록버튼 숨기기
 				modal.find("#modalRegisterBtn").hide();
 				modal.modal("show");
 				
