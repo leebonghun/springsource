@@ -40,11 +40,19 @@
                 	</div>
                 </div>
             </div>
-
-
-
-
-
+<!-- 첨부파일 등록  -->
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading"><i class="fa fa-files-o"></i>파일첨부</div>
+			<div class="panel-body">
+				<div class="uploadResult">
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>  
 <!-- 댓글 리스트  -->
 <div class="row">
 	<div class="col-lg-12">

@@ -33,6 +33,7 @@ from (select bno,title from SPRING_BOARD where bno>0 order by bno desc)
 where rownum <= 10;
 
 
+
 --오라클 힌트 이용하기
 select /*+INDEX_DESC(spring_board pk_spring_board)*/ rownum,bno,title
 from SPRING_BOARD
@@ -101,3 +102,20 @@ alter table spring_board add(replyCnt number default 0);
 --이미 들어간 댓글 수 삽입
 update spring_board set replyCnt = (select count(rno) from SPRING_REPLY where spring_board.bno=spring_reply.bno);
 select * from spring_board where bno = 506;
+
+--첨부파일 테이블
+create table spring_attach(
+	uuid varchar2(100) not null,
+	uploadPath varchar2(200) not null,
+	fileName varchar2(100) not null,
+	fileType char(1) default 'I',
+	bno number(10,0)
+);
+alter table spring_attach add constraint pk_attach primary key(uuid);
+alter table spring_attach add constraint fk_board_attach foreign key(bno)
+references spring_board(bno);
+
+drop table spring_attach;
+
+select * from spring_attach;
+

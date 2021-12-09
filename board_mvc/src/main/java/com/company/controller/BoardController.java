@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.company.domain.AttachFileDTO;
 import com.company.domain.BoardDTO;
 import com.company.domain.Criteria;
 import com.company.domain.PageDTO;
@@ -36,6 +39,11 @@ public class BoardController {
 	@PostMapping("/register")
 	public String registerPost(BoardDTO boardDTO,RedirectAttributes rttr) {
 		log.info("Post로 요청.."+boardDTO);
+		//첨부파일 확인하기
+	//	if(boardDTO.getAttachList()!=null) {
+	//		boardDTO.getAttachList().forEach(attach -> log.info(attach+""));
+	//	}
+		
 		
 		service.insertBoard(boardDTO);
 		rttr.addFlashAttribute("result",boardDTO.getBno());
@@ -96,9 +104,23 @@ public class BoardController {
 			rttr.addAttribute("keyword", cri.getKeyword());
 			rttr.addFlashAttribute("result", "success");
 			return "redirect:/board/list";
-		
-		
-		
 	}
+	
+	//첨부파일 관련 controller
+	@GetMapping("/getAttachList")
+	public ResponseEntity<List<AttachFileDTO>> getAttachList(int bno){
+		log.info("파일첨부 중...."+bno);
+		
+		return new ResponseEntity<List<AttachFileDTO>>(service.findByBno(bno),HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

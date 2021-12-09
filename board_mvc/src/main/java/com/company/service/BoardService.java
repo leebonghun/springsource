@@ -2,6 +2,7 @@ package com.company.service;
 
 import java.util.List;
 
+import com.company.domain.AttachFileDTO;
 import com.company.domain.BoardDTO;
 import com.company.domain.Criteria;
 
@@ -18,6 +19,9 @@ public interface BoardService {
 	public boolean remove(String bno);
 	
 	public int totalCnt(Criteria cri);
+	
+	//첨부파일 관련
+	public List<AttachFileDTO> findByBno(int bno);
 	
 	
 }

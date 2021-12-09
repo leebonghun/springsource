@@ -81,7 +81,11 @@ public class UploadController {
 
 		// 서버 폴더에 접근해서 해당 파일 가져오기
 		Resource resource = new FileSystemResource("C:\\upload\\" + fileName);
-		String resourceName = resource.getFilename();
+		String resourceUidName = resource.getFilename();
+		
+		
+		//다운로드 할 때 UUID 값 제거하기
+		String resourceName = resourceUidName.substring(resourceUidName.indexOf("_")+1); 
 
 		// 헤더에 추가하기
 		HttpHeaders headers = new HttpHeaders();
