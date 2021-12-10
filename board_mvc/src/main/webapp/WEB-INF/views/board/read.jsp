@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="/resources/css/upload.css" />
+
+
+
 <%@include file="../includes/header.jsp" %>
             <div class="row">
                 <div class="col-lg-12">
@@ -39,8 +43,15 @@
                 		</div>
                 	</div>
                 </div>
+      
+      
+      
+      
             </div>
 <!-- 첨부파일 등록  -->
+<div class="bigPictureWrapper">
+	<div class="bigPicture"></div>
+</div>
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">

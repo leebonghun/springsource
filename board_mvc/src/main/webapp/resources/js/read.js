@@ -246,6 +246,12 @@ $(function(){
 	})
 	
 	//첨부파일 가져오기
+	let uploadResult = $(".uploadResult ul")
+	let str="";
+	
+	
+	//게시물에 달려있는 전체 첨부 파일 가져오기
+	
 	$.getJSON({
 		url:'getAttachList',
 		data:{
@@ -253,10 +259,75 @@ $(function(){
 		},
 		success:function(data){
 			console.log(data);
+			//도착한 첨부파일을 보여주기 
+			$(data).each(function(idx,obj){
+            if(obj.fileType){
+               
+               //썸네일 이미지 경로 생성
+               var fileCallPath = encodeURIComponent(obj.uploadPath+"\\s_"+obj.uuid+"_"+obj.fileName);
+               
+               //원본 이미지 경로 생성
+               var originPath = obj.uploadPath+"\\"+obj.uuid+"_"+obj.fileName;
+               originPath = originPath.replace(new RegExp(/\\/g),"/");
+               
+               str+="<li data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"'";
+			   str+=" data-filename='"+obj.fileName+"' data-type='"+obj.fileType+"'>";
+               str+="<a><img src='/display?fileName="+fileCallPath+"'>";
+			   str+="<div>"+obj.fileName+"</a> ";
+			   str+="</div></li>";            
+            }else{
+               //다운로드 경로 설정
+              str+="<li data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"'";
+			   str+=" data-filename='"+obj.fileName+"' data-type='"+obj.fileType+"'>";
+               str+="<a><img src='/resources/img/attach.png'><div>"+obj.fileName+"</a> ";
+               str+="</div></li>";            
+            }
+         })    // $(data).each 종료
+		uploadResult.html(str);
+
+	   }
+	})//전체 첨부물 가져오기 종료
+	
+	//첨부파일 클릭시 이벤트
+	$(".uploadResult").on("click","li",function(){
+		console.log("첨부파일 클릭")
+		
+		//선택된 첨부파일 가져오기
+		let liObj = $(this);
+		
+		let path = encodeURIComponent(liObj.data("path")+"/"+liObj.data("uuid")+"_"+liObj.data("filename"));
+		
+		if(liObj.data("type")){
+			showImage(path.replace(new RegExp(/\\/g),"/"));
+		}else{
+			self.location="/download?fileName="+path;
 		}
 		
+	})//$(".uploadResult").on("click") end
+	//원본 이미지 창 닫기
+	$(".bigPictureWrapper").on("click",function(){
+		$(".bigPicture").animate({
+            width:'0%',
+            height:'0%'
+            },1000);
+		setTimeout(function(){
+			$(".bigPictureWrapper").hide();
+		},1000);
 	})
 	
 	
 	
+	
+	
 })
+	function showImage(fileCallPath){
+    console.log(fileCallPath);
+   
+   //안보였던 영역 보이기
+   $(".bigPictureWrapper").css("display","flex").show();
+   $(".bigPicture").html("<img src='/display?fileName="+fileCallPath+"'>")
+               .animate({
+                  width:'100%',
+                  height:'100%'
+               },1000);
+}

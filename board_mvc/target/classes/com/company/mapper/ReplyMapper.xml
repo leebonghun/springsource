@@ -18,7 +18,13 @@
 	<delete id="deleteReply">
 		delete from spring_reply where rno =#{rno}
 	</delete>
-
+	
+	
+	<!--댓글 삭제  -->
+	<delete id="deleteAll">
+		delete from spring_reply where bno=#{bno}
+	</delete>
+	
 	<!-- bno가 일치하는 댓글 가져오기  -->
 	<select  id="list" resultType="com.company.domain.ReplyDTO">
 		<![CDATA[

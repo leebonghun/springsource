@@ -14,8 +14,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -141,6 +144,29 @@ public class UploadAjaxController {
 	   //일반 파일인 경우 - 원본 파일만 삭제
    }
    
+   @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public ResponseEntity<Resource> downloadFile(String fileName) {
+		log.info("download File Name : " + fileName);
+
+		// 서버 폴더에 접근해서 해당 파일 가져오기
+		Resource resource = new FileSystemResource("C:\\upload\\" + fileName);
+		String resourceUidName = resource.getFilename();
+		
+		
+		//다운로드 할 때 UUID 값 제거하기
+		String resourceName = resourceUidName.substring(resourceUidName.indexOf("_")+1); 
+
+		// 헤더에 추가하기
+		HttpHeaders headers = new HttpHeaders();
+		try {
+			headers.add("Content-Disposition",
+					"attachment;fileName=" + new String(resourceName.getBytes("utf-8"), "iso-8859-1"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+	}
    
    
    // 이미지 파일 여부 확인

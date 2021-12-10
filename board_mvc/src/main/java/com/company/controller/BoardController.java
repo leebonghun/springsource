@@ -1,5 +1,9 @@
 package com.company.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -79,30 +83,37 @@ public class BoardController {
 	public String modifyPost(BoardDTO dto,Criteria cri,RedirectAttributes rttr) {
 		log.info("수정 진행중 "+dto+"    "+cri);
 		
-			service.modify(dto);
-			rttr.addAttribute("pageNum", cri.getPageNum());
-			rttr.addAttribute("amount", cri.getAmount());
-			rttr.addAttribute("type", cri.getType());
-			rttr.addAttribute("keyword", cri.getKeyword());
-			rttr.addFlashAttribute("result", "success");
-			return "redirect:/board/list";
+		
+		service.modify(dto);
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+		rttr.addFlashAttribute("result", "success");
+		return "redirect:/board/list";
 	}
 	@GetMapping("/remove")
 	public void remove() {
 		log.info("삭제 요청중...");
 	}
 	@PostMapping("/remove")
-	public String removePost(String bno,Criteria cri,RedirectAttributes rttr) {
-		
-	
-			service.remove(bno);
+	public String removePost(int bno,Criteria cri,RedirectAttributes rttr) {
+			//첨부파일 목록 얻어오기
 			
-			//페이지 나누기 값
-			rttr.addAttribute("pageNum", cri.getPageNum());
-			rttr.addAttribute("amount", cri.getAmount());
-			rttr.addAttribute("type", cri.getType());
-			rttr.addAttribute("keyword", cri.getKeyword());
-			rttr.addFlashAttribute("result", "success");
+			List<AttachFileDTO> attachList =service.findByBno(bno);
+	
+			if(service.remove(bno)) {
+				//폴더 파일 삭제
+				deleteFiles(attachList);
+				
+				//페이지 나누기 값
+				rttr.addAttribute("pageNum", cri.getPageNum());
+				rttr.addAttribute("amount", cri.getAmount());
+				rttr.addAttribute("type", cri.getType());
+				rttr.addAttribute("keyword", cri.getKeyword());
+				rttr.addFlashAttribute("result", "success");
+			}
+			
 			return "redirect:/board/list";
 	}
 	
@@ -114,7 +125,34 @@ public class BoardController {
 		return new ResponseEntity<List<AttachFileDTO>>(service.findByBno(bno),HttpStatus.OK);
 	}
 	
-	
+	public void deleteFiles(List<AttachFileDTO> attachList) {
+		if(attachList == null || attachList.size()==0) {
+			return;
+		}
+		log.info("파일 삭제중....");
+		
+		attachList.forEach(attach -> {
+			Path file = Paths.get("c:\\upload\\"+attach.getUploadPath()+"\\"+attach.getUuid()+"_"+attach.getFileName());
+		
+			try {
+				//일반파일, 이미지 원본 파일만 삭제
+				Files.deleteIfExists(file);
+				
+				if(Files.probeContentType(file).startsWith("image")) {
+					Path thumbnail = Paths.get("c:\\upload\\"+attach.getUploadPath()+"\\s_"+attach.getUuid()+"_"+attach.getFileName());
+					
+					//이미지 썸네일 삭제
+					Files.delete(thumbnail);
+				}
+			
+			
+			
+			
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 	
 	
 	

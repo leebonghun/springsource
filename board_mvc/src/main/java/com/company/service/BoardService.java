@@ -16,12 +16,16 @@ public interface BoardService {
 	
 	public boolean modify(BoardDTO dto);
 	
-	public boolean remove(String bno);
+	public boolean remove(int bno);
 	
 	public int totalCnt(Criteria cri);
 	
 	//첨부파일 관련
 	public List<AttachFileDTO> findByBno(int bno);
+	public boolean deleteAll(int bno);
+	
+	//댓글
+
 	
 	
 }

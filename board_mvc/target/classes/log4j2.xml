@@ -18,6 +18,8 @@
 	
 	<Logger name="com.company.controller" level="info"/>
 	<Logger name="com.company.mapper" level="debug"/>
+	<Logger name="com.company.task" level="info"/>
+	
 		
     <Root level="error">
       <AppenderRef ref="Console"/>
