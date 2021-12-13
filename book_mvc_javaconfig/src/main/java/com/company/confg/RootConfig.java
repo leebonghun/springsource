@@ -1,4 +1,4 @@
-package com.company.config;
+package com.company.confg;
 
 import javax.sql.DataSource;
 
@@ -11,12 +11,25 @@ import org.springframework.context.annotation.Configuration;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+@ComponentScan("com.company.service")
 @MapperScan("com.company.mapper")
-@Configuration //환경 설정을 담당하는 파일임을 명시
-@ComponentScan(basePackages = {"com.company.service"})
-public class BoardConfig {
+
+@Configuration //환경 설정파일을 명시해주는 어노테이션
+public class RootConfig {
 	
-	@Bean //인스턴스를 생성하고 스프링 컨테이너가 관리
+	/*<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="ds"></property>
+	</bean>*/
+	
+	@Bean
+	public SqlSessionFactory sqlSessionFactory() throws Exception {
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSource());
+		return sqlSessionFactoryBean.getObject();
+		
+	}
+	@Bean
 	public DataSource dataSource() {
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName("oracle.jdbc.OracleDriver");
@@ -24,16 +37,8 @@ public class BoardConfig {
 		hikariConfig.setUsername("c##java");
 		hikariConfig.setPassword("12345");
 		
-		HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+		HikariDataSource dataSource = new HikariDataSource(hikariConfig);
+		return dataSource;
 		
-		return hikariDataSource;
-		
-	}
-	@Bean
-	public SqlSessionFactory sqlSessionFactory() throws Exception {
-		
-		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource());
-        return sqlSessionFactoryBean.getObject();
 	}
 }
