@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.mapper.UserMapper">
+
+	<!-- 회원가입 -->
+	<insert id="register">
+		insert into sp_user(userid,email,password) 
+		values(#{userid},#{email},#{password})
+	</insert>
+	
+	<!-- 회원가입시 권한등록 -->
+	<insert id="register_auth">
+		insert into sp_user_authority(userid,authority)
+		values(#{userid},#{authority})
+	</insert>
+	
+	<!-- resultMAP : 데이터베이스 결과데이터를 객체에 로드  -->
+	<resultMap type="com.company.domain.SpUser" id="spUser">
+		<id property="userid" column="userid" />
+		<result property="password" column="password"/>
+		<result property="enable" column="enable"/>
+		<result property="email" column="email"/>
+		
+		<collection property="authorities" resultMap="authList"></collection>
+	</resultMap>
+	
+	
+	<resultMap type="com.company.domain.SpUserAuthority" id="authList">
+		<result property="userid" column="userid"></result>
+		<result property="authority" column="authority"></result>
+	</resultMap>
+	
+	<select  id="read" resultMap="spUser">
+		select s1.userid,email,enable,password,authority 
+		from sp_user s1 join sp_user_authority s2 on s1.userid = s2.userid 
+		where s1.userid = #{userid}
+	</select>
+	
+
+</mapper>

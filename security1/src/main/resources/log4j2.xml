@@ -18,8 +18,10 @@
 	<Logger name="org.springframework.security" level="info"/>
 	
 	<Logger name="com.company.controller" level="info"/>
+	<Logger name="com.company.service" level="info"/>
 	<Logger name="com.company.mapper" level="debug"/>
 	<Logger name="com.company.task" level="info"/>
+	<Logger name="com.company.handler" level="info"/>
 	
 		
     <Root level="error">

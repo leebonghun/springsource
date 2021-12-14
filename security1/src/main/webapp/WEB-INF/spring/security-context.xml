@@ -4,28 +4,57 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 암호화 객체 -->	
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 	
+	<!-- Custom Service 객체 생성 -->
+	<bean id="customUserDetailService" class="com.company.service.CustomUserDetailService"></bean>
+	
+	<bean id="customAccessDeniedHandler" class="com.company.handler.CustomAccessDeniedHandler"></bean>
+	<bean id="customLoginSuccessHandler" class="com.company.handler.CustomLoginSuccessHandler"></bean>
 	<security:http>
+	<!-- 접근 권한이 없는 사이트 이동시 움직이는 경로 설정  -->
+	<!-- <security:access-denied-handler error-page="/access-denied"/> -->
+	<security:access-denied-handler ref="customAccessDeniedHandler"/>
+	
 		<!-- default 로그인, 로그아웃 페이지가 보여짐 -->
 		<!-- <security:form-login/>--> <!-- 이코드 때문에 localhost:8080/login 을 주소창에 입력하면 로그인 폼이 화면에 나타남  -->
 	
-	<!-- 개발자가 원하는 로그인 페이지 보여주기 -->
-	<security:form-login login-page="/login" authentication-failure-url="/login-error"/> <!-- <<컨트롤러 주소를 적으면 됨	 -->
+	<!-- 개발자가 원하는 로그인 페이지 보여주기 login-page="/login" : custom login apge 보여주기 authentication-failure-url : 로그인 실패 시 보여주는 화면
+	authentication-success-handler-ref : 로그인 성공 했을때 보여주는 주소 화면-->
+	<security:form-login login-page="/login" authentication-failure-url="/login-error"
+	 authentication-success-handler-ref="customLoginSuccessHandler" /> <!-- <<컨트롤러 주소를 적으면 됨	 -->
+	 
+	 
 	<!-- 로그아웃 설정 : 컨트롤러로 보내서 개발자가 원하는 작업-->
 	<security:logout logout-url="/logout" invalidate-session="true" delete-cookies="true" logout-success-url="/"/>
 	
 	<!-- url 접근 시 원하는 권한이 있는지 확인 하는 작업  -->
 	<security:intercept-url pattern="/user-page" access="hasRole('ROLE_USER')"/>
 	<security:intercept-url pattern="/admin-page" access="hasRole('ROLE_ADMIN')"/>
+	<security:remember-me data-source-ref="ds" token-validity-seconds="604800"/>
+	
 	</security:http>
 	
+	
+	<!-- 인증 방식 : JDBC 인증 -->
 	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetailService">
+			<security:password-encoder ref="bCryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+	
+	
+	
+	<!-- 아래 작업은 인증방식 : in-memoery 방식 (DB를 쓰지 않고 강제로 아이디로 줬다는 얘기,테스트용) -->
+	<!-- <security:authentication-manager>
 		<security:authentication-provider>
 			<security:user-service>
 				<security:user name="user1" password="{noop}user1" authorities="ROLE_USER"/>
 				<security:user name="admin" password="{noop}admin" authorities="ROLE_ADMIN,ROLE_USER"/>
 			</security:user-service>
 		</security:authentication-provider>
-	</security:authentication-manager>	
+	</security:authentication-manager>	 -->
 	
 </beans>
