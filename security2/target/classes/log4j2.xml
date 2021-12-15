@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+<!-- 로그 기록 위치 설정 : 화면, 파일, 데이터베이스 -->
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </Console>
+  </Appenders>
+<!-- 개별적인 로그 설정 -->
+  <Loggers>
+	<!-- 3rdparty Loggers -->
+	<Logger name="org.springframework.core" level="info"/>
+	<Logger name="org.springframework.beans" level="info"/>
+	<Logger name="org.springframework.context" level="info"/>
+	
+	<Logger name="org.springframework.web" level="debug"/>
+	<Logger name="org.springframework.jdbc" level="debug"/>
+	<Logger name="org.springframework.security" level="info"/>
+	
+	<Logger name="com.company.controller" level="info"/>
+	<Logger name="com.company.service" level="info"/>
+	<Logger name="com.company.mapper" level="debug"/>
+	<Logger name="com.company.task" level="info"/>
+	<Logger name="com.company.handler" level="info"/>
+	
+		
+    <Root level="error">
+      <AppenderRef ref="Console"/>
+    </Root>
+  </Loggers>
+</Configuration>

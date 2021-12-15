@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.mapper.TestMapper">
+<!-- MyBatis 동적태그 if,choose(when,otherwise),trim(where,set)-->
+
+	<!--<if test="type=='T'.toString()">
+		(title like '%'||#{keyword}||'%')
+	</if>
+	<if test="type=='C'.toString()">
+		(content like '%'||#{keyword}||'%')
+	</if>
+	<if test="type=='W'.toString()">
+		(writer like '%'||#{keyword}||'%')
+	</if>-->
+	
+	<!-- 여러 상황들 중 하나의 상황에서만 동작 if,else-->
+<!--	<choose>
+		<when test="type=='T'.toString()">
+			(title like '%'||#{keyword}||'%')
+		</when>
+		<when test="type=='C'.toString()">
+			(content like '%'||#{keyword}||'%')
+		</when>
+		<when test="type=='W'.toString()">
+			(writer like '%'||#{keyword}||'%')
+		</when>
+		<otherwise>
+			(title like '%'||#{keyword}||'%' or content like '%'||#{keyword}||'%')
+		</otherwise>
+	</choose>-->
+
+	<!--trim, where, set : 단독으로 사용 불가 => if,choose 와 같이 사용
+		bno가 널이면 : select * from spring_board
+		bno가 널이 아니면 : select * from spring_board where bno=#{bno} and rownum=1
+	-->
+	<select  id="">
+	
+		select * from spring_board
+		<where>
+			<if test="bno != null">
+				bno = #{bno}
+			</if>
+		</where>
+	</select>
+	
+	<!-- trim : 태그 내용을 앞의 내용과 관련되어 원하는 접두/접미사 처리 -->
+	<select  id="">
+	
+		select * from spring_board
+		<where>
+			<if test="bno != null">
+				bno = #{bno}
+			</if>
+			<trim prefixOverrides="and">
+				rownum =1
+			</trim>
+		</where>
+	</select>
+	
+	<!-- foreach : list, 배열, 맵 형태의 데이터를 루프를 통해 처리 
+	
+		Map<String, String> map = new HashMap();
+		map.put("T","TTTT");
+		map.put("C","CCCC");
+	-->
+	
+	<!-- select * from spring_board where ( title =? or content = ?)-->
+	<select id="">
+		select * from spring_board
+		
+		<trim prefix="where (" suffix=")" prefixOverrides="OR">
+			<foreach collection="map" item="val" index="key">
+				<trim prefix="OR">
+					<if test="key=='T'.toString()">
+						title=#{val}
+					</if>
+					<if test="key=='C'.toString()">
+						content=#{val}
+					</if>
+					<if test="key=='W'.toString()">
+						writer=#{val}
+					</if>
+				</trim>
+			</foreach>
+		</trim>
+	</select>
+	
+	
+
+</mapper>
