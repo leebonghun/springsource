@@ -86,7 +86,10 @@ public class BoardController {
 		
 		
 	}
-
+	
+	
+	
+	@PreAuthorize("principal.username == #dto.writer")
 	@PostMapping("/modify")
 	public String modifyPost(BoardDTO dto,Criteria cri,RedirectAttributes rttr) {
 		log.info("수정 진행중 "+dto+"    "+cri);
@@ -104,8 +107,9 @@ public class BoardController {
 	public void remove() {
 		log.info("삭제 요청중...");
 	}
+	@PreAuthorize("principal.username == #writer")
 	@PostMapping("/remove")
-	public String removePost(int bno,Criteria cri,RedirectAttributes rttr) {
+	public String removePost(int bno,String writer,Criteria cri,RedirectAttributes rttr) {
 			//첨부파일 목록 얻어오기
 			
 			List<AttachFileDTO> attachList =service.findByBno(bno);

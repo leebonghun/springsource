@@ -58,5 +58,10 @@
 		</div>
 	</div>
 </div>  
+<script>
+	//ajax 동작시 헤더 값에 포함해서 보낼 csrf 토큰 값 설정
+	let csrfHeaderName = "${_csrf.headerName}";
+	let csrfTokenValue = "${_csrf.token}";
+</script>
 <script src="/resources/js/upload.js"></script>          
 <%@include file="../includes/footer.jsp" %>       

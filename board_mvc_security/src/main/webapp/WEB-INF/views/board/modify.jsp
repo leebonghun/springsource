@@ -33,8 +33,15 @@
 						<label>Writer</label> <input class="form-control" name="writer"
 							readonly="readonly" value="${read.writer}">
 					</div>
+					
+					<sec:authentication property="principal" var="info"/>
+						<sec:authorize access="isAuthenticated()"> 
+							<c:if test="${info.username==read.writer}" >
 					<button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
 					<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
+							</c:if>
+						</sec:authorize>
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<button type="submit" data-oper='list' class="btn btn-info">List</button>
 				</form>
 			</div>
@@ -71,6 +78,11 @@
 		type="hidden" name="type" value="${cri.type}" /> <input type="hidden"
 		name="keyword" value="${cri.keyword}" /> <input type="hidden"
 		name="bno" value="${read.bno}" />
+		
+		<!-- 시큐리티 적용으로 인한 추가  -->
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		<input type="hidden" name="writer" value="${read.writer}" />
+		
 </form>
 <script>
 	//현재 글번호 가져오기
