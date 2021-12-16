@@ -11,6 +11,8 @@
 	
 	<security:http>
 		<security:form-login login-page="/login" authentication-success-handler-ref="successHandler"/>
+		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me, JSESSION_ID" />
+		<security:remember-me data-source-ref="ds" token-validity-seconds="604800"/>
 	</security:http>
 	
 	
